@@ -23,6 +23,14 @@ const Header = () => {
           <LinkContainer to='/'>
             <Navbar.Brand>BookStore</Navbar.Brand>
           </LinkContainer>
+          <LinkContainer
+            to="/"
+            onClick={window.open(
+              "https://rishikeshunawane-book-recommendation-app-v9x501.streamlit.app/"
+            )}
+          >
+            <Navbar.Brand>Book Recommendations</Navbar.Brand>
+          </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Route render={({ history }) => <SearchBox history={history} />} />

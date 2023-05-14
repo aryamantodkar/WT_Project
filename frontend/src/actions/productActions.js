@@ -29,10 +29,28 @@ export const listProducts = (keyword = '', pageNumber = '') => async (
 ) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST })
-
+    
     const { data } = await axios.get(
       `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
     )
+
+    const allBooks = await axios.get(
+      `/api/products`
+    )
+    
+    const checkDescription = allBooks.data.products.filter((book)=>book.description==keyword);
+    const checkPrice = allBooks.data.products.filter((book)=>book.price <= keyword);
+    const inStock = allBooks.data.products.filter((book)=>book.countInStock>0);
+    
+    if(keyword=="in stock"){
+      data.products = inStock;
+    } 
+    else if(data.products.length==0 && checkDescription.length==0 && keyword!=""){
+      data.products = checkPrice;
+    }
+    else if(data.products.length==0){
+      data.products = checkDescription;
+    }
 
     dispatch({
       type: PRODUCT_LIST_SUCCESS,
